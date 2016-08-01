@@ -1,6 +1,6 @@
 # coding: utf-8
-## @package FaBoBLE_Nordic
-#  This is a library for the FaBo Nordic Brick.
+## @package Nordic
+#  This is a FaBoBLE_Nordic library for the FaBo Nordic Brick.
 #
 #  http://fabo.io/307.html
 #
@@ -67,7 +67,7 @@ class Nordic:
         self.stopScan()
         time.sleep(WAIT_REPLY)
         self.bleNordic.flush()
-        
+
         # setEnable
         self.sd_ble_enable()
 
@@ -235,10 +235,10 @@ class Nordic:
 
         if self.broken == True:
             self.bleNordic.flush()
-            print "broken"   
+            print "broken"
 
         if self.bleNordic.inWaiting()>0:
-              
+
             readData = self.bleNordic.read().encode('hex')
             intData = int(readData,16)
 
@@ -443,7 +443,7 @@ class Nordic:
     ## Error check.
     #  @param [in] buffer nrf Responce data
     def errorCheck(self, buffer):
-        
+
         i = 0
         for value in buffer:
             if i == 3:
@@ -467,7 +467,7 @@ class Nordic:
             if(self.DEBUG):
                 print "Response Error"
                 print "Command:", hex(cmd)
-                print " ERROR CODE:", hex(err1), hex(err2), hex(err3), hex(err4) 
+                print " ERROR CODE:", hex(err1), hex(err2), hex(err3), hex(err4)
             return False
 
     ## Clear ScanData
@@ -513,4 +513,3 @@ class Nordic:
         self.dataOut %= BUFF_SIZE
         self.dataCount -= 1
         return out
-
