@@ -15,8 +15,8 @@ import sys
 
 port = '/dev/ttyAMA0'
 rate = 115200
-print "BLE Nordic SCAN sample"
-print "BLE Enable"
+print("BLE Nordic SCAN sample")
+print("BLE Enable")
 ble = FaBoBLE_Nordic.Nordic(port, rate)
 
 #ble.setDebug()
@@ -29,19 +29,19 @@ while True:
 
     buff =  ble.getScanData()
     if buff["rssi"]!=0:
-        print "Handle:%04x" % long(buff["handle"]),
+        print("Handle:%04x" % int(buff["handle"]), end=' ')
 
-        print " AddrType:%1x" % buff["addrtype"],
+        print(" AddrType:%1x" % buff["addrtype"], end=' ')
 
-        print " Address:",
+        print(" Address:", end=' ')
         for i in range(6):
             sys.stdout.write('%02x' % buff["address"][i])
 
-        print ' RSSI:%02d' % buff["rssi"],
+        print(' RSSI:%02d' % buff["rssi"], end=' ')
         if buff["rssi"] > -100:
             sys.stdout.write("  ")
 
-        print " Data:",
+        print(" Data:", end=' ')
         for i in range(buff["data_len"]):
             sys.stdout.write('%02x' % buff["data"][i])
-        print
+        print()

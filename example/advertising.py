@@ -27,9 +27,9 @@ GPIO.setup(BUTTON_PIN, GPIO.IN)
 buttonState = 0
 isFirst = False
 
-print "BLE Advertise Sample"
+print("BLE Advertise Sample")
 
-print "BLE Enable"
+print("BLE Enable")
 # BLE設定、初期処理
 ble = FaBoBLE_Nordic.Nordic(port, rate)
 
@@ -47,15 +47,15 @@ ble.setBeaconMinor(minor)
 
 # Beacon設定
 if ble.setAdvData():
-    print "Success:setAdvData()"
+    print("Success:setAdvData()")
 else:
-    print "Failed:setAdvData()"
+    print("Failed:setAdvData()")
 
 # アドバタイズ開始
 if ble.startAdv():
-    print "Success:Start Beacon advertising"
+    print("Success:Start Beacon advertising")
 else:
-    print "Failed:Start Beacon advertising"
+    print("Failed:Start Beacon advertising")
 
 while True:
     ble.tick()
@@ -71,14 +71,14 @@ while True:
             if ble.isAdvertising()==False:
                 # アドバタイズ開始
                 if ble.startAdv():
-                    print "Success:Start Beacon advertising"
+                    print("Success:Start Beacon advertising")
                 else:
-                    print "Failed:Start Beacon advertising"
+                    print("Failed:Start Beacon advertising")
             else:
                 # アドバタイズ終了
                 if ble.stopAdv():
-                    print "Success:Stop Beacon advertising"
+                    print("Success:Stop Beacon advertising")
                 else:
-                    print "Failed:Stop Beacon advertising"
+                    print("Failed:Stop Beacon advertising")
     else:
         isFirst = False

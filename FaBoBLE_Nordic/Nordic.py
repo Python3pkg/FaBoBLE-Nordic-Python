@@ -33,7 +33,7 @@ class Nordic:
     c_len      = 0
     c_type     = 0x00
     c_command  = 0x00
-    c_data     = [0 for i in xrange(50)]
+    c_data     = [0 for i in range(50)]
 
     pos       = 0     # 現在の設定位置
     dataCount = 0     # 取得しているレコード件数
@@ -235,7 +235,7 @@ class Nordic:
 
         if self.broken == True:
             self.bleNordic.flush()
-            print "broken"
+            print("broken")
 
         if self.bleNordic.inWaiting()>0:
 
@@ -287,7 +287,7 @@ class Nordic:
                 self.c_len      = 0
                 self.c_type     = 0x00
                 self.c_command  = 0x00
-                self.c_data     = [0 for i in xrange(50)]
+                self.c_data     = [0 for i in range(50)]
 
                 self.ofs        = 0
 
@@ -299,7 +299,7 @@ class Nordic:
             self.c_len      = 0
             self.c_type     = 0x00
             self.c_command  = 0x00
-            self.c_data     = [0 for i in xrange(50)]
+            self.c_data     = [0 for i in range(50)]
 
             self.ofs        = 0
             self.broken = False
@@ -309,61 +309,61 @@ class Nordic:
         # BLE_GAP_EVT_CONNECTED
         if (self.c_command == 0x10):
             if self.DEBUG:
-                print "\n*BLE_GAP_EVT_CONNECTED"
-                print "Connection Handle:"
-                print self.c_data[0],
-                print self.c_data[1]
-                print "Peer Address:",
-                for i in xrange(7):
-                    print self.c_data[2+i],
-                print "\nOwn Address:"
-                for i in xrange(7):
-                    print self.c_data[9+i],
-                print "\nIRK:"
-                print self.c_data[17]
-                print "GAP Connection Parameters:"
-                for i in xrange(8):
-                    print self.c_data[18+i],
-                print
+                print("\n*BLE_GAP_EVT_CONNECTED")
+                print("Connection Handle:")
+                print(self.c_data[0], end=' ')
+                print(self.c_data[1])
+                print("Peer Address:", end=' ')
+                for i in range(7):
+                    print(self.c_data[2+i], end=' ')
+                print("\nOwn Address:")
+                for i in range(7):
+                    print(self.c_data[9+i], end=' ')
+                print("\nIRK:")
+                print(self.c_data[17])
+                print("GAP Connection Parameters:")
+                for i in range(8):
+                    print(self.c_data[18+i], end=' ')
+                print()
 
         # BLE_GAP_EVT_DISCONNECTED
         elif self.c_command == 0x11:
             if self.DEBUG:
-                print "\n*BLE_GAP_EVT_CONNECTED"
-                print "Connection Handle:"
-                print self.c_data[0],
-                print self.c_data[1],
-                print "Reason:"
-                print self.c_data[2],
-            print
+                print("\n*BLE_GAP_EVT_CONNECTED")
+                print("Connection Handle:")
+                print(self.c_data[0], end=' ')
+                print(self.c_data[1], end=' ')
+                print("Reason:")
+                print(self.c_data[2], end=' ')
+            print()
 
         # BLE_GAP_EVT_ADV_REPORT
         elif self.c_command == 0x1b:
             if self.DEBUG:
-                print "\n*BLE_GAP_EVT_ADV_REPORT"
-                print "Connection Handle:",
-                print self.c_data[0],
-                print self.c_data[1]
-                print "Address Type:"
-                print self.c_data[2]
-                print "Address:",
-                for i in xrange(6):
-                    print self.c_data[3+i]
-                print "\nRSSI:"
-                print self.c_data[9]
-                print "Flags:"
-                print self.c_data[10],
-                print "DataLen:"
-                print self.c_len
-                print "Data:"
-                for i in xrange(self.c_len-11):
-                    print self.c_data[11+i]
-                print
+                print("\n*BLE_GAP_EVT_ADV_REPORT")
+                print("Connection Handle:", end=' ')
+                print(self.c_data[0], end=' ')
+                print(self.c_data[1])
+                print("Address Type:")
+                print(self.c_data[2])
+                print("Address:", end=' ')
+                for i in range(6):
+                    print(self.c_data[3+i])
+                print("\nRSSI:")
+                print(self.c_data[9])
+                print("Flags:")
+                print(self.c_data[10], end=' ')
+                print("DataLen:")
+                print(self.c_len)
+                print("Data:")
+                for i in range(self.c_len-11):
+                    print(self.c_data[11+i])
+                print()
 
             # send event to handler
             self.handle[self.dataIn] = self.c_data[0] |  self.c_data[1] << 8
             self.addrtype[self.dataIn] = self.c_data[2]
-            for i in xrange(5, -1, -1):
+            for i in range(5, -1, -1):
                 self.address[self.dataIn][i] = self.c_data[i + 3]
 
             value = self.c_data[9]
@@ -374,7 +374,7 @@ class Nordic:
 
             self.flags[self.dataIn] = self.c_data[10]
             self.data_len[self.dataIn] = self.c_len - 11
-            for i in xrange(self.data_len[self.dataIn]):
+            for i in range(self.data_len[self.dataIn]):
                  self.data[self.dataIn][i] = self.c_data[i + 11]
 
             self.dataIn += 1
@@ -388,33 +388,33 @@ class Nordic:
         elif self.c_command == 0x86:
             if self.DEBUG:
 
-                print "\n*BLE_SCAN_START RESPONSE"
-                print "Error Code:"
-                print self.c_data[0], self.c_data[1], self.c_data[2], self.c_data[3]
+                print("\n*BLE_SCAN_START RESPONSE")
+                print("Error Code:")
+                print(self.c_data[0], self.c_data[1], self.c_data[2], self.c_data[3])
 
             check_data = self.c_data[0] | self.c_data[1] | self.c_data[2] | self.c_data[3]
 
             if check_data == 0:
-                print "BLE Scan Start"
+                print("BLE Scan Start")
                 self.is_scanning = True
             else:
-                print "BLE Scan Failed"
+                print("BLE Scan Failed")
 
         # BLE_SCAN STOP RESPONSE
         elif self.c_command == 0x87:
             if self.DEBUG:
 
-                print "\n*BLE_SCAN_STOP RESPONSE"
-                print "Error Code:"
-                print self.c_data[0], self.c_data[1], self.c_data[2], self.c_data[3]
+                print("\n*BLE_SCAN_STOP RESPONSE")
+                print("Error Code:")
+                print(self.c_data[0], self.c_data[1], self.c_data[2], self.c_data[3])
 
             check_data = self.c_data[0] | self.c_data[1] | self.c_data[2] | self.c_data[3]
 
             if check_data == 0:
-                print "BLE Scan Stop"
+                print("BLE Scan Stop")
                 self.is_scanning = False
             else:
-                print "BLE Scan Stop Failed"
+                print("BLE Scan Stop Failed")
 
     # Status of advertising.
     def isAdvertising(self):
@@ -465,9 +465,9 @@ class Nordic:
 
         else:
             if(self.DEBUG):
-                print "Response Error"
-                print "Command:", hex(cmd)
-                print " ERROR CODE:", hex(err1), hex(err2), hex(err3), hex(err4)
+                print("Response Error")
+                print("Command:", hex(cmd))
+                print(" ERROR CODE:", hex(err1), hex(err2), hex(err3), hex(err4))
             return False
 
     ## Clear ScanData

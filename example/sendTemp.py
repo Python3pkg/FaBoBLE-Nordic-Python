@@ -21,9 +21,9 @@ rate = 115200
 # Button Brick接続ピン
 TEMPPIN = 0
 
-print "BLE Advertise Send Temperature Sample"
+print("BLE Advertise Send Temperature Sample")
 
-print "BLE Enable"
+print("BLE Enable")
 # BLE設定、初期処理
 ble = FaBoBLE_Nordic.Nordic(port, rate)
 
@@ -41,15 +41,15 @@ ble.setBeaconMinor(minor)
 
 # Beacon設定
 if ble.setAdvData():
-    print "Success:setAdvData()"
+    print("Success:setAdvData()")
 else:
-    print "Failed:setAdvData()"
+    print("Failed:setAdvData()")
 
 # アドバタイズ開始
 if ble.startAdv():
-    print "Success:Start Beacon advertising"
+    print("Success:Start Beacon advertising")
 else:
-    print "Failed:Start Beacon advertising"
+    print("Failed:Start Beacon advertising")
 
 # Set SPI
 spi = spidev.SpiDev()
@@ -69,12 +69,12 @@ while True:
             data = readadc(TEMPPIN)
             volt = arduino_map(data, 0, 1023, 0, 5000)
             temp = arduino_map(volt, 300, 1600, -30, 100)
-            print("temp : {:4.1f} ".format(temp))
+            print(("temp : {:4.1f} ".format(temp)))
 
             send_temp = int(temp)
             ble.setBeaconMinor([0, send_temp])
             if ble.setAdvData()==False:
-                print "Failed :setAdvData()"
+                print("Failed :setAdvData()")
 
             time.sleep(5)
 
